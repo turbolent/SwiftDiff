@@ -3,11 +3,6 @@ import Foundation
 
 extension String {
 
-    subscript(offset: Int) -> Character {
-        let index = self.index(startIndex, offsetBy: offset)
-        return self[index]
-    }
-
     subscript(range: Range<Int>) -> String {
         guard !range.isEmpty else {
             return ""
