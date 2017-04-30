@@ -2,12 +2,12 @@ language: generic
 matrix:
   include:
     - os: linux
-      dist: xenial
+      dist: trusty
       sudo: required
       env:
-        - SWIFT_VERSION=swift-3.1.1
-        - SWIFT_BUILD=$SWIFT_VERSION-RELEASE-ubuntu16.04
-        - SWIFT_OS=ubuntu1604
+        - SWIFT_VERSION=swift-3.1
+        - SWIFT_BUILD=$SWIFT_VERSION-RELEASE-ubuntu14.04
+        - SWIFT_OS=ubuntu1404
         - SWIFT_URL=https://swift.org/builds/$SWIFT_VERSION-release/$SWIFT_OS/$SWIFT_VERSION-RELEASE/$SWIFT_BUILD.tar.gz
         - PATH="$SWIFT_BUILD/usr/bin:$PATH"
     - os: osx
@@ -19,8 +19,7 @@ before_script:
       tar xzf $SWIFT_BUILD.tar.gz ;
     fi
 script:
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then xcodebuild -project SwiftDiff.xcodeproj -scheme SwiftDiff test | xcpretty; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then swift test ; fi
+  - swift test
 
 cache:
   - $SWIFT_BUILD.tar.gz
