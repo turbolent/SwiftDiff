@@ -1,0 +1,26 @@
+language: generic
+matrix:
+  include:
+    - os: linux
+      dist: trusty
+      sudo: required
+      env:
+        - SWIFT_VERSION=swift-3.1
+        - SWIFT_BUILD=$SWIFT_VERSION-RELEASE-ubuntu14.04
+        - SWIFT_OS=ubuntu1404
+        - SWIFT_URL=https://swift.org/builds/$SWIFT_VERSION-release/$SWIFT_OS/$SWIFT_VERSION-RELEASE/$SWIFT_BUILD.tar.gz
+        - PATH="$SWIFT_BUILD/usr/bin:$PATH"
+    - os: osx
+      osx_image: xcode8.3
+before_script:
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+      sudo apt-get update -y ;
+      wget -nc $SWIFT_URL ; 
+      tar xzf $SWIFT_BUILD.tar.gz ;
+    fi
+script:
+  - swift test
+
+cache:
+  - $SWIFT_BUILD.tar.gz
+
