@@ -1,23 +1,21 @@
+language: objective-c
 matrix:
   include:
     - os: linux
-      dist: trusty
+      dist: xenial
       sudo: required
     - os: osx
       osx_image: xcode8.3
-# branches:
-#   only:
-#     - master
 before_script:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get update -y ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then -nc wget https://swift.org/builds/swift-3.1-release/ubuntu1404/swift-3.1-RELEASE/swift-3.1-RELEASE-ubuntu14.04.tar.gz ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then tar xzf swift-3.1-RELEASE-ubuntu14.04.tar.gz ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export PATH=swift-3.1-RELEASE-ubuntu14.04/usr/bin:$PATH ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then wget -nc https://swift.org/builds/swift-3.1.1-release/ubuntu1604/swift-3.1.1-RELEASE/swift-3.1.1-RELEASE-ubuntu16.04.tar.gz; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then tar xzf swift-3.1.1-RELEASE-ubuntu16.04.tar.gz ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export PATH=swift-3.1.1-RELEASE-ubuntu16.04/usr/bin:$PATH ; fi
 
 script:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then xcodebuild -project SwiftDiff.xcodeproj -scheme SwiftDiff test | xcpretty; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then swift test ; fi
 
 cache:
-  - swift-3.1-RELEASE-ubuntu14.04.tar.gz
+  - swift-3.1.1-RELEASE-ubuntu16.04.tar.gz
 
