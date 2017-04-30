@@ -338,9 +338,18 @@ func bisect(text1: String, length1: Int,
                 ? v1[k1Offset + 1]
                 : v1[k1Offset - 1] + 1
             var y1 = x1 - k1
-            while x1 < length1 && y1 < length2
-                && text1[x1] == text2[y1]
-            {
+
+
+            let limit1 = text1.index(before: text1.endIndex)
+            let limit2 = text2.index(before: text2.endIndex)
+
+            var optIndex1 = text1.index(text1.startIndex, offsetBy: x1, limitedBy: limit1)
+            var optIndex2 = text2.index(text2.startIndex, offsetBy: y1, limitedBy: limit2)
+
+            while let index1 = optIndex1, let index2 = optIndex2, text1[index1] == text2[index2] {
+                optIndex1 = text1.index(index1, offsetBy: 1, limitedBy: limit1)
+                optIndex2 = text2.index(index2, offsetBy: 1, limitedBy: limit2)
+
                 x1 += 1
                 y1 += 1
             }
@@ -380,12 +389,23 @@ func bisect(text1: String, length1: Int,
                 : v2[k2Offset - 1] + 1
 
             var y2 = x2 - k2
-            while x2 < length1 && y2 < length2
-                && text1[length1 - x2 - 1] == text2[length2 - y2 - 1]
-            {
-                    x2 += 1
-                    y2 += 1
+
+
+            let limit1 = text1.index(after: text1.startIndex)
+            let limit2 = text2.index(after: text2.startIndex)
+
+            var foo1 = text1.index(text1.index(before: text1.endIndex), offsetBy: -x2, limitedBy: limit1)
+            var foo2 = text2.index(text2.index(before: text2.endIndex), offsetBy: -y2, limitedBy: limit2)
+
+            while let bar1 = foo1, let bar2 = foo2, text1[bar1] == text2[bar2] {
+
+                foo1 = text1.index(bar1, offsetBy: -1, limitedBy: limit1)
+                foo2 = text2.index(bar2, offsetBy: -1, limitedBy: limit2)
+
+                x2 += 1
+                y2 += 1
             }
+
             v2[k2Offset] = x2
             if x2 > length1 {
                 // Ran off the left of the graph.

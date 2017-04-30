@@ -3,7 +3,7 @@ import Foundation
 
 func commonPrefixLength(text1: String, text2: String) -> Int {
     // Quick check for common null cases.
-    if text1.isEmpty || text2.isEmpty || text1[0] != text2[0] {
+    if text1.isEmpty || text2.isEmpty || text1.characters.first != text2.characters.first {
         return 0
     }
 
@@ -38,7 +38,7 @@ func commonSuffixLength(text1: String, text2: String) -> Int {
     let length1 = text1.characters.count
     let length2 = text2.characters.count
 
-    if text1[length1 - 1] != text2[length2 - 1] {
+    if text1.characters.last != text2.characters.last {
         return 0
     }
 
