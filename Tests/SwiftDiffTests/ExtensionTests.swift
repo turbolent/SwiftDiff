@@ -34,3 +34,15 @@ class ExtensionTests: XCTestCase {
         XCTAssertEqual("", "123".substring(last: -1))
     }
 }
+
+#if os(Linux)
+    extension ExtensionTests {
+        static var allTests : [(String, (ExtensionTests) -> () throws -> Void)] {
+            return [
+                ("testSubstringTo", testSubstringTo),
+                ("testSubstringFrom", testSubstringFrom),
+                ("testSubstringLast", testSubstringLast),
+            ]
+        }
+    }
+#endif

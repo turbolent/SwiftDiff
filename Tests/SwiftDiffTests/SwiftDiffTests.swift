@@ -1,5 +1,7 @@
 import XCTest
 @testable import SwiftDiff
+import CoreFoundation
+import Dispatch
 
 
 class SwiftDiffTests: XCTestCase {
@@ -396,3 +398,21 @@ class SwiftDiffTests: XCTestCase {
                          .delete("A3"), .insert("3BC")]))
     }
 }
+
+#if os(Linux)
+    extension SwiftDiffTests {
+        static var allTests : [(String, (SwiftDiffTests) -> () throws -> Void)] {
+            return [
+                ("testDiffCommonPrefix", testDiffCommonPrefix),
+                ("testDiffCommonSuffix", testDiffCommonSuffix),
+                ("testDiffCommonOverlap", testDiffCommonOverlap),
+                ("testDiff", testDiff),
+                ("testDiffHalfMatch", testDiffHalfMatch),
+                ("testCleanupMerge", testCleanupMerge),
+                ("testCleanupSemanticScore", testCleanupSemanticScore),
+                ("testCleanupSemanticLossless", testCleanupSemanticLossless),
+                ("testDiffCleanupSemantic", testDiffCleanupSemantic),
+            ]
+        }
+    }
+#endif
